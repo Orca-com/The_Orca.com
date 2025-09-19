@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orca-999 - Moderator Profile</title>
+    <link rel="icon" href="https://www.redditstatic.com/desktop2x/img/favicon/favicon-32x32.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b1;
+            --secondary: #6f42c1;
+            --accent: #00c8ff;
+            --dark-bg: #0a0a12;
+            --dark-card: #15152a;
+            --dark-card-hover: #1c1c38;
+            --dark-border: #2a2a4a;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0d0;
+            --success: #28d97c;
+            --warning: #ffcc00;
+            --danger: #ff4d4d;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--secondary));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(21, 21, 42, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 20%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .logo-image:hover {
+            transform: rotate(5deg) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            margin-bottom: 2px;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo-text span {
+            font-size: 12px;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        /* Navigation */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 0;
+            position: relative;
+        }
+
+        nav a:not(.nav-cta):hover {
+            color: var(--accent);
+        }
+
+        nav a:not(.nav-cta):after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+
+        nav a:not(.nav-cta):hover:after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--gradient);
+            padding: 10px 22px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.4);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Moderator Profile */
+        .moderator-profile {
+            padding: 100px 0 60px;
+            position: relative;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: var(--dark-card);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 50px;
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+        
+        
+        .profile-avatar {
+            width: 170px;
+            height: 170px;
+            
+        
+        }
+
+
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 130%;
+            object-fit:  ;
+            margin-bottom:10px;
+        }
+
+        .profile-info h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .moderator-badge {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(42, 42, 74, 0.3);
+            border-radius: 12px;
+            min-width: 120px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(42, 42, 74, 0.5);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Content Tabs */
+        .content-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--dark-border);
+            animation: fadeIn 1s ease 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--accent);
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+        }
+
+        .tab-btn.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Posts */
+        .post {
+            background: var(--dark-card);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .post-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .post p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .post-action:hover {
+            color: var(--accent);
+        }
+
+        /* About Section */
+        .about-content {
+            background: var(--dark-card);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease;
+        }
+
+        .about-content h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .about-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .about-content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-card);
+            padding: 60px 0 30px;
+            margin-top: 60px;
+            text-align: center;
+            border-top: 1px solid var(--dark-border);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            margin-bottom: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .content-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: var(--dark-card);
+                padding: 100px 30px 30px;
+                transition: right 0.3s ease;
+                z-index: 99;
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+            }
+
+            nav.active {
+                right: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .close-menu {
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                background: none;
+                border: none;
+                color: var(--text-primary);
+                font-size: 24px;
+                cursor: pointer;
+            }
+            
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-info h2 {
+                font-size: 28px;
+            }
+            
+            .post-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-image">
+                        <img src="mod.png" alt="Orca Logo">
+                    </div>
+                    <div class="logo-text">
+                        <h1>The_Orca</h1>
+                        <span>Moderator Profile</span>
+                    </div>
+                </a>
+                <button class="mobile-menu-btn">☰</button>
+                <nav id="main-nav">
+                    <button class="close-menu">×</button>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#topics">Topics</a></li>
+                        <li><a href="index.html#rules">Rules</a></li>
+                        <li><a href="moderator.html" class="nav-cta">Moderator</a></li>
+                        <li><a href="https://www.reddit.com/r/The_Orca/s/NHfT9vKGXL" class="nav-cta">Join Now</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Moderator Profile -->
+    <section class="moderator-profile">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="smod.png" alt="Orca-999 Avatar">
+                </div>
+                <div class="profile-info">
+                    <h2>Orca-999</h2>
+                    <span class="moderator-badge">MODERATOR</span>
+                    <p>Community moderator with a focus on finance and AI discussions. Passionate about creating a welcoming environment for knowledge sharing and constructive debates.</p>
+                    <a href="https://www.reddit.com/u/Orca-999/s/PjlXqwzmBy" class="cta-button" style="display: inline-block; margin-top: 10px;">
+                        <i class="fab fa-reddit-alien"></i> Reddit Profile
+                    </a>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">2.4k</div>
+                            <div class="stat-label">Posts</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">5.7k</div>
+                            <div class="stat-label">Comments</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3</div>
+                            <div class="stat-label">Years</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">12.5k</div>
+                            <div class="stat-label">Karma</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-tabs">
+                <button class="tab-btn active" data-tab="posts">Recent Posts</button>
+                <button class="tab-btn" data-tab="comments">Comments</button>
+                <button class="tab-btn" data-tab="about">About</button>
+            </div>
+
+            <div class="tab-content active" id="posts">
+                <div class="post">
+                    <div class="post-header">
+                        <span>Posted in r/Finance</span>
+                        <span>2 days ago</span>
+                    </div>
+                    <h3 class="post-title">Market Analysis: Q3 2023 Trends and Predictions</h3>
+                    <p>Based on the recent economic indicators, we're seeing a shift in market sentiment that could indicate a strong finish to the year for tech stocks. Let's discuss the factors driving this trend...</p>
+                    <div class="post-actions">
+                        <div class="post-action"><i class="fas fa-arrow-up"></i> 243</div>
+                        <div class="post-action"><i class="fas fa-comment"></i> 87 Comments</div>
+                        <div class="post-action"><i class="fas fa-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="post">
+                    <div class="post-header">
+                        <span>Posted in r/AI</span>
+                        <span>1 week ago</span>
+                    </div>
+                    <h3 class="post-title">Ethical Considerations in Generative AI Models</h3>
+                    <p>As generative AI becomes more powerful, we need to have serious discussions about the ethical implications of these technologies. From deepfakes to copyright issues, let's explore the landscape...</p>
+                    <div class="post-actions">
+                        <div class="post-action"><i class="fas fa-arrow-up"></i> 512</div>
+                        <div class="post-action"><i class="fas fa-comment"></i> 134 Comments</div>
+                        <div class="post-action"><i class="fas fa-share"></i> Share</div>
+                    </div>
+                </div>
+
+                <div class="post">
+                    <div class="post-header">
+                        <span>Posted in r/Technology</span>
+                        <span>2 weeks ago</span>
+                    </div>
+                    <h3 class="post-title">The Future of Quantum Computing: Practical Applications</h3>
+                    <p>While quantum computing has been theoretical for decades, we're now seeing practical applications emerge across various industries. Let's break down the most promising use cases...</p>
+                    <div class="post-actions">
+                        <div class="post-action"><i class="fas fa-arrow-up"></i> 187</div>
+                        <div class="post-action"><i class="fas fa-comment"></i> 42 Comments</div>
+                        <div class="post-action"><i class="fas fa-share"></i> Share</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="comments">
+                <div class="post">
+                    <div class="post-header">
+                        <span>Comment on: Market Analysis: Q3 2023 Trends</span>
+                        <span>1 day ago</span>
+                    </div>
+                    <p>I agree with your analysis overall, but I think we should also consider the impact of international markets on domestic performance, especially given recent trade developments. The Asian markets have shown particular resilience that could signal...</p>
+                    <div class="post-actions">
+                        <div class="post-action"><i class="fas fa-arrow-up"></i> 42</div>
+                        <div class="post-action"><i class="fas fa-comment"></i> 3 Replies</div>
+                    </div>
+                </div>
+
+                <div class="post">
+                    <div class="post-header">
+                        <span>Comment on: Ethical AI Development</span>
+                        <span>4 days ago</span>
+                    </div>
+                    <p>This is an important discussion. We need to establish industry-wide standards before regulation forces potentially restrictive measures that could hinder innovation. The EU's AI Act is a step in the right direction but...</p>
+                    <div class="post-actions">
+                        <div class="post-action"><i class="fas fa-arrow-up"></i> 78</div>
+                        <div class="post-action"><i class="fas fa-comment"></i> 12 Replies</div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <span>Comment on: Quantum Computing Investments</span>
+                        <span>1 week ago</span>
+                    </div>
+                    <p>While I'm bullish on quantum computing long-term, I think we're still in the early stages where most investments are speculative. Companies like IBM and Google are making progress, but practical commercial applications are still 5-10 years out for most industries.</p>
+                    <div class="post-actions">
+                        <div class="post-action"><i class="fas fa-arrow-up"></i> 35</div>
+                        <div class="post-action"><i class="fas fa-comment"></i> 7 Replies</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="about">
+                <div class="about-content">
+                    <h3>About Orca-999</h3>
+                    <p>I've been actively involved in the finance and technology sectors for over a decade, with particular expertise in market analysis and emerging technologies. My goal as a moderator is to foster thoughtful discussion and ensure our community remains a valuable resource for everyone.</p>
+                    
+                    <h3>Areas of Expertise</h3>
+                    <ul>
+                        <li>Financial markets and analysis</li>
+                        <li>Artificial intelligence and machine learning</li>
+                        <li>Emerging technologies</li>
+                        <li>Investment strategies</li>
+                        <li>Technology policy and ethics</li>
+                    </ul>
+                    
+                    <h3>Moderation Philosophy</h3>
+                    <p>I believe in maintaining a balance between free discussion and respectful dialogue. My approach to moderation is to guide conversations rather than control them, stepping in only when necessary to maintain the quality of our community. I prioritize transparency and will always explain moderation decisions when appropriate.</p>
+                    
+                    <h3>Community Involvement</h3>
+                    <p>I've been part of The_Orca community since its inception and have served as a moderator for the past two years. During that time, I've helped develop community guidelines, organized AMA sessions with industry experts, and worked to create a welcoming environment for both newcomers and seasoned members.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html" class="logo">
+                        <div class="logo-image">
+                            <img src="mod.png" alt="Orca Logo">
+                        </div>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <a href="index.html#topics"><i class="fas fa-comments"></i> Topics</a>
+                    <a href="index.html#rules"><i class="fas fa-scroll"></i> Rules</a>
+                    <a href="moderator.html"><i class="fas fa-shield-alt"></i> Moderator</a>
+                    <a href="https://www.reddit.com/u/Orca-999/s/kpGPgBLuRs"><i class="fas fa-user"></i> Orca-999</a>
+                </div>
+                <p class="copyright">© 2023 The Orca Community. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        const mainNav = document.getElementById('main-nav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mainNav.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mainNav.contains(e.target) && e.target !== mobileMenuBtn) {
+                mainNav.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.post, .about-content').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
